@@ -1,0 +1,10 @@
+---
+- hosts: servers
+  roles:
+    - role: evannook.nginx
+    - role: f500.supervisord
+    - role: debops.gunicorn
+
+- hosts: all
+  roles:
+     - { role: mrwilson.sqlite, sqlite_dir: /opt/sqlite, sqlite_dbs: [ foo, bar ] }
