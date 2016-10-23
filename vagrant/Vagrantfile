@@ -6,6 +6,9 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "debian/jessie64"
 
+
+  config.vm.provision "file", source: "../helloWorldApp", destination: "helloWorldApp"
+
   #
   # Run Ansible from the Vagrant Host
   #

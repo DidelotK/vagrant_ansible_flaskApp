@@ -1,2 +1,3 @@
 ---
-# Flask var
+# Flask vars
+flask_app_name: helloWorldApp

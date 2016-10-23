@@ -1,8 +1,8 @@
 ---
-- name: Install Nginx, SQlite, Supervisord, Gunicorn, Python (with)
+- name: Install Nginx, SQlite, Supervisord, Gunicorn, Python
   hosts: all
   remote_user: root
-  
+
   roles:
     - role: nginx
     - role: sqlite
