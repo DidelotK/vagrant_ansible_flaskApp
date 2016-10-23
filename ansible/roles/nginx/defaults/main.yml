@@ -1,0 +1,2 @@
+# Nginx app should contain 'name' and 'config' fields 
+nginx_apps: []

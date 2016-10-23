@@ -1,0 +1,8 @@
+- name: Python | Install
+  apt: pkg=python name=python2.7
+
+- name: Pip | Install
+  apt: pkg=python-pip
+
+- name: Flask (virtualenv) | Install
+  pip: name=virtualenv version=15.0.3

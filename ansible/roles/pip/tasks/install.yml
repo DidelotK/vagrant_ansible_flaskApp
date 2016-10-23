@@ -1,0 +1,6 @@
+---
+- name: really install pip
+  shell: "cd /tmp && wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py"
+
+- name: upgrade setuptools
+  shell: "pip install --upgrade setuptools"

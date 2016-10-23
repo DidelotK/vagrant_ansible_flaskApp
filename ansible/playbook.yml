@@ -1,10 +1,17 @@
 ---
-- hosts: servers
+- name: Install Nginx, SQlite, Supervisord, Gunicorn, Python (with)
+  hosts: all
+  remote_user: root
+  
   roles:
-    - role: evannook.nginx
-    - role: f500.supervisord
-    - role: debops.gunicorn
+    - role: nginx
+    - role: sqlite
+    - role: supervisord
+    - role: gunicorn
 
-- hosts: all
+- name: Install python (with pip and flask) and deploy the hello world app
+  hosts: all
+  remote_user: root
+  
   roles:
-     - { role: mrwilson.sqlite, sqlite_dir: /opt/sqlite, sqlite_dbs: [ foo, bar ] }
+    - role: flask

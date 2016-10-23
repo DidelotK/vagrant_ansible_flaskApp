@@ -1,0 +1,3 @@
+---
+sqlite_dir: /opt/sqlite
+sqlite_dbs: [ db ]

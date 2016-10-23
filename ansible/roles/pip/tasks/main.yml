@@ -1,0 +1,8 @@
+---
+- name: Check if PIP needs to be installed
+  shell: "command -v pip &&echo '1'||echo '0'"
+  register: pip_exists
+  changed_when: false
+
+- include: install.yml
+  when: pip_exists.stdout=="0"
