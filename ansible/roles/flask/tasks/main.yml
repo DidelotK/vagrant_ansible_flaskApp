@@ -2,16 +2,26 @@
 - name: Pip | Install
   apt: pkg=python-pip
 
+- name: Virtualenv | Install
+  apt: pkg=virtualenv
+
 - name: Flask | Install
   pip: name=flask
 
-- name: Lien de l'app vers /var/www
+- name: Create virtualenv for the flask app
+  file: >
+      path=~/{{ flask_app_name }}
+      owner=vagrant
+      group=vagrant
+      mode=0755
+      state=directory
+
+- name: Create virtualenv from flask app
+  command: virtualenv {{ flask_app_name }}env chdir=~/{{ flask_app_name }}
+
+- name: Activate the environment
   become: yes
-  file:
-    src: /home/vagrant/{{ flask_app_name }}
-    dest: /var/www/{{ flask_app_name }}
-    state: link
+  command: ~/{{ flask_app_name }}/{{ flask_app_name }}env/bin/activate
 
 - name: Launch the flask app with gunicorn
-  become: yes
-  command: gunicorn {{ flask_app_name }}:app -D -b {{server_ip}} chdir=/var/www/
+  command: gunicorn --bind {{ server_ip }} wsgi --chdir /home/vagrant/{{ flask_app_name }}
