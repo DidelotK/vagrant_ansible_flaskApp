@@ -1,2 +1,17 @@
 ---
-- include: flask.yml
+- name: Pip | Install
+  apt: pkg=python-pip
+
+- name: Flask | Install
+  pip: name=flask
+
+- name: Lien de l'app vers /var/www
+  become: yes
+  file:
+    src: /home/vagrant/{{ flask_app_name }}
+    dest: /var/www/{{ flask_app_name }}
+    state: link
+
+- name: Launch the flask app with gunicorn
+  become: yes
+  command: gunicorn {{ flask_app_name }}:app -D -b {{server_ip}} chdir=/var/www/

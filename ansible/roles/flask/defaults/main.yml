@@ -1,3 +1,4 @@
 ---
 # Flask vars
+server_ip: 0.0.0.0:5000
 flask_app_name: helloWorldApp

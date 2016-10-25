@@ -12,4 +12,9 @@ Role installed:
 - Sqlite
 - Supervisord
 - gunicorn
+- flask
 
+## Required
+
+- vagrant
+- ansible

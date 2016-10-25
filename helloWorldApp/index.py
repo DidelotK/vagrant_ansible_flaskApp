@@ -7,13 +7,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return "Hello world!"
-
-@app.route('/contact')
-def contact():
-    mail = "jean@bon.fr"
-    tel = "01 23 45 67 89"
-    return "Mail: {} --- Tel: {}".format(mail, tel)
-
     
 if __name__ == '__main__':
-    app.run(debug=True, port=4000)
+    app.run(host='0.0.0.0', port=5000)

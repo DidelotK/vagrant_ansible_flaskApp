@@ -1,5 +1,5 @@
 ---
-- name: Install Nginx, SQlite, Supervisord, Gunicorn, Python
+- name: Install Nginx, SQlite, Supervisord, Gunicorn, flask and deploy the app
   hosts: all
   remote_user: root
 
@@ -8,10 +8,4 @@
     - role: sqlite
     - role: supervisord
     - role: gunicorn
-
-- name: Install python (with pip and flask) and deploy the hello world app
-  hosts: all
-  remote_user: root
-  
-  roles:
     - role: flask
