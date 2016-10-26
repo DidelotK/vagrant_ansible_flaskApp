@@ -6,14 +6,10 @@
 - name: Create supervisord group
   group: name=supervisord system=yes state=present
 
-- name: Create supervisord config
-  template: src=supervisord.conf.j2 dest=/etc/supervisor/supervisord.conf
-  register: supervisord_config_file
-
-- name: Restart supervisord if the config task has changes
-  service: name=supervisor state=restarted
-  when: supervisord_config_file.changed
+- name: Supervisor | Configure
+  template:
+    src=supervisord.conf.j2
+    dest=/etc/supervisor/conf.d/{{ flask_app_name }}.conf
 
 - name: Start supervisord
   service: name=supervisor state=started enabled=yes
-

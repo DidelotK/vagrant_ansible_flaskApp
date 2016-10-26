@@ -2,6 +2,9 @@
 - name: Install Nginx, SQlite, Supervisord, Gunicorn, flask and deploy the app
   hosts: all
   remote_user: root
+  vars:
+    user: vagrant
+    flask_app_name: helloWorldApp
 
   roles:
     - role: nginx
@@ -9,3 +12,4 @@
     - role: supervisord
     - role: gunicorn
     - role: flask
+

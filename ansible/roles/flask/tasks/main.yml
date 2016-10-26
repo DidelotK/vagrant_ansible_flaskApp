@@ -1,13 +1,4 @@
 ---
-- name: Virtualenv | Install
-  apt: pkg=virtualenv
-
-- name: Create virtualenv from flask app
-  command: virtualenv env chdir=/home/vagrant/{{ flask_app_name }}
-
-- name: Activate the environment
-  become: yes
-  shell: . /home/vagrant/{{ flask_app_name }}/  env/bin/activate
 
 - name: Pip | Install
   apt: pkg=python-pip
@@ -15,46 +6,17 @@
 - name: Flask | Install
   pip: name=flask
 
-- name: Nginx | Configure
-  template:
-    src=nginx_app.j2
-    dest=/etc/nginx/sites-available/{{ flask_app_name }}
+- name: Virtualenv | Install
+  pip: name=virtualenv
 
-- name: Nginx | Enable app
-  file: src=/etc/nginx/sites-available/{{ flask_app_name }} dest=/etc/nginx/sites-enabled/{{ flask_app_name }} state=link
+- name: Create virtualenv with requirements
+  pip: name=flask virtualenv=/home/{{ user }}/{{ flask_app_name }}/env
+  remote_user: "{{ user }}"
 
-- name: Test nginx
+- name: Activate the environment
   become: yes
-  command: nginx -t
-  notify:
-    - Restart nginx
+  shell: . /home/{{ user }}/{{ flask_app_name }}/env/bin/activate
 
-- name: Supervisor | Configure
-  template:
-    src=supervisord.conf.j2
-    dest=/etc/supervisor/conf.d/{{ flask_app_name }}.conf
 
-- name: Supervisor | Reread
-  become: yes
-  command: supervisorctl reread
 
-- name: Supervisor | Update
-  become: yes
-  command: supervisorctl update
 
-- name: Supervisor | Start
-  become: yes
-  command: supervisorctl start {{ flask_app_name }}
-
-#  template:
-#    src=supervisord.conf.j2
-#    dest=/etc/supervisor/supervisord.conf
-#  notify:
-#    - Reload supervisor
-
-#- name: Launch the flask app with supervisor and gunicorn
-#  supervisorctl: name=all state=started
-
-#- name: Launch the flask  app with gunicorn
-#  command: gunicorn -b {{ server_ip }} run:app --chdir /home/vagrant/{{ flask_app_name }}
-...

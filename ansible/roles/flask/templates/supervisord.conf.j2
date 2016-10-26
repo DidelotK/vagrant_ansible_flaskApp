@@ -1,8 +1,0 @@
-[program:{{ flask_app_name }}]
-command = gunicorn run:app -w 4
-directory = /home/vagrant/{{ flask_app_name }}
-user = vagrant
-stdout_logfile = /home/vagrant/{{ flask_app_name }}/logs/gunicorn/gunicorn_stdout.log
-stderr_logfile = /home/vagrant/{{ flask_app_name }}/logs/gunicorn/gunicorn_stderr.log
-redirect_stderr = True
-environment = PRODUCTION=1
