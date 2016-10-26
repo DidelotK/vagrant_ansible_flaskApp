@@ -8,6 +8,7 @@ class Module:
 		self.database.text_factory = bytes
 		self.cursor = self.database.cursor()
 		self.createTable()
+		self.addModules()
 
 
 	def createTable(self):

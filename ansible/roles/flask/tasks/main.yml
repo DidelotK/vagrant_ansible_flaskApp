@@ -15,9 +15,46 @@
 - name: Flask | Install
   pip: name=flask
 
-- name: Install flask app requirements
-  pip: -r requirements.txt chdir=/home/vagrant/{{ flask_app_name }}
+- name: Nginx | Configure
+  template:
+    src=nginx_app.j2
+    dest=/etc/nginx/sites-available/{{ flask_app_name }}
 
-- name: Launch the flask app with gunicorn
-  command: gunicorn -b {{ server_ip }} application:app --chdir /home/vagrant/{{ flask_app_name }}
+- name: Nginx | Enable app
+  file: src=/etc/nginx/sites-available/{{ flask_app_name }} dest=/etc/nginx/sites-enabled/{{ flask_app_name }} state=link
+
+- name: Test nginx
+  become: yes
+  command: nginx -t
+  notify:
+    - Restart nginx
+
+- name: Supervisor | Configure
+  template:
+    src=supervisord.conf.j2
+    dest=/etc/supervisor/conf.d/{{ flask_app_name }}.conf
+
+- name: Supervisor | Reread
+  become: yes
+  command: supervisorctl reread
+
+- name: Supervisor | Update
+  become: yes
+  command: supervisorctl update
+
+- name: Supervisor | Start
+  become: yes
+  command: supervisorctl start {{ flask_app_name }}
+
+#  template:
+#    src=supervisord.conf.j2
+#    dest=/etc/supervisor/supervisord.conf
+#  notify:
+#    - Reload supervisor
+
+#- name: Launch the flask app with supervisor and gunicorn
+#  supervisorctl: name=all state=started
+
+#- name: Launch the flask  app with gunicorn
+#  command: gunicorn -b {{ server_ip }} run:app --chdir /home/vagrant/{{ flask_app_name }}
 ...

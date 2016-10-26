@@ -1,6 +1,0 @@
-#
-####### Requirements.txt #######
-#
-
-###### Requirements to use alchemy ######
-Flask-SQLAlchemy

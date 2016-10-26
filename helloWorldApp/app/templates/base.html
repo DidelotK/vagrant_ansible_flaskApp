@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    {% block header %}
+        <meta charset="utf-8" />
+        <link href="{{ url_for('static', filename='css/semantic-ui/semantic.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" type="text/css">
+        <title>{% block titre %}Titre par défaut{% endblock %}</title>
+    {% endblock %}
+    </head>
+
+    <body>
+        {% block corps %}{% endblock %}        
+        {% block footer %}
+            <footer class="contentCenter">Copyright Didelot Kévin</footer>
+        {% endblock %}
+    </body>
+</html>

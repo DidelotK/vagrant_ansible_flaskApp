@@ -1,13 +1,11 @@
 from flask import render_template
 from app.model import Module
 
-module = Module()
-
 def router(app):
 	#Routes
 	@app.route('/')
 	def home():
-			module.addModules()
+			module = Module()
 			modules = module.getModules();
 	 		return render_template('home.html',modules = modules)
 
