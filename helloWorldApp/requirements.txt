@@ -1,0 +1,3 @@
+# Requirements for the app
+Flask
+gunicorn

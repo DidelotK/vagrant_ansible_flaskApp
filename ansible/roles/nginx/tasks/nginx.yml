@@ -10,12 +10,20 @@
   file: path=/etc/nginx/sites-enabled/{{ item.name }} state=absent
   with_items: "{{ nginx_apps }}"
 
-- name: Nginx | Configure
+- name: Nginx | Configure apps
   template:
-    src=nginx_app.j2
-    dest=/etc/nginx/sites-available/{{ flask_app_name }}
+    src={{ item.config }}
+    dest=/etc/nginx/sites-available/{{ item.name }}
+    group=www-data
+    owner=www-data
+    force=yes
+  with_items: "{{ nginx_apps }}"
 
-- name: Nginx | Enable app
-  file: src=/etc/nginx/sites-available/{{ flask_app_name }} dest=/etc/nginx/sites-enabled/{{ flask_app_name }} state=link
+- name: Nginx | Enable apps
+  file:
+    path=/etc/nginx/sites-enabled/{{ item.name }}
+    src=/etc/nginx/sites-available/{{ item.name }}
+    state=link
+  with_items: "{{ nginx_apps }}"
   notify:
     - Restart Nginx

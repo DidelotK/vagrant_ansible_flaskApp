@@ -3,20 +3,28 @@
 - name: Pip | Install
   apt: pkg=python-pip
 
-- name: Flask | Install
-  pip: name=flask
-
 - name: Virtualenv | Install
   pip: name=virtualenv
 
 - name: Create virtualenv with requirements
-  pip: name=flask virtualenv=/home/{{ user }}/{{ flask_app_name }}/env
+  pip: name=flask virtualenv=/home/{{ user }}/{{ item.name }}/env
   remote_user: "{{ user }}"
+  with_items: "{{ flask_app }}"
 
 - name: Activate the environment
   become: yes
-  shell: . /home/{{ user }}/{{ flask_app_name }}/env/bin/activate
+  shell: . /home/{{ user }}/{{ item.name }}/env/bin/activate
+  with_items: "{{ flask_app }}"
 
+- name: Install app requirements
+  pip:
+    requirements=/home/{{ user }}/{{ item.name }}/requirements.txt
+    virtualenv=/my_app/venv
+  with_items: "{{ flask_app }}"
 
-
-
+- name: Deploy gunicorn script
+  template:
+    src="run-gunicorn.sh.j2"
+    dest="{{ item.path_root }}/run-gunicorn.sh"
+    mode="0755"
+  with_items: "{{ flask_app }}"

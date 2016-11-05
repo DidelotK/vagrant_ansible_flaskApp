@@ -1,9 +1,9 @@
-[program:{{ flask_app_name }}]
-command = gunicorn -b {{ server_ip }} run:app
-directory = /home/vagrant/{{ flask_app_name }}
-user = vagrant
-stdout_logfile = /home/vagrant/{{ flask_app_name }}/logs/gunicorn/gunicorn_stdout.log
-stderr_logfile = /home/vagrant/{{ flask_app_name }}/logs/gunicorn/gunicorn_stderr.log
+[program:{{ item.name }}] 
+directory = {{ item.path_root }}
+command = {{ item.path_root }}/run-gunicorn.sh
+user = {{ user }}
+stdout_logfile = {{ item.path_logs }}/supervisor/supervisor.log
+stderr_logfile = {{ item.path_logs }}/supervisor/supervisor.err
 redirect_stderr = True
 environment = PRODUCTION=1
 startretries=10

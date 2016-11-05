@@ -1,15 +1,20 @@
 ---
-
-- name: Install supervisord
+- name: Install
   apt: pkg=supervisor state=present
 
-- name: Create supervisord group
+- name: Create group
   group: name=supervisord system=yes state=present
 
-- name: Supervisor | Configure
+- name: Configure
   template:
     src=supervisord.conf.j2
-    dest=/etc/supervisor/conf.d/{{ flask_app_name }}.conf
+    dest={{ supervisord_include_path }}/{{ item.name }}.conf
+  with_items: "{{ supervisord_apps }}"
+  register: supervisord_config_file
+
+- name: Restart supervisord if the config task has changes
+  service: name=supervisor state=restarted
+  when: supervisord_config_file.changed
 
 - name: Start supervisord
   service: name=supervisor state=started enabled=yes

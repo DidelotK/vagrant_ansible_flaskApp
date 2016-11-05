@@ -4,12 +4,35 @@
   remote_user: root
   vars:
     user: vagrant
-    flask_app_name: helloWorldApp
+    apps:
+      - name: "helloWorldApp"
+        config: 'nginx_app.j2'
+        listen: 80
+        server_name: localhost
+        server_ip: 127.0.0.1:5000
+        proxy_pass: http://127.0.0.1:5000
+        path_root: /home/vagrant/helloWorldApp/
+        path_logs: /home/vagrant/helloWorldApp/logs
+        path_virtualenv: /home/vagrant/helloWorldApp/env/
+        num_worker: 4
+        worker_timeout: 300
 
   roles:
-    - role: nginx
-    - role: sqlite
-    - role: supervisord
-    - role: gunicorn
-    - role: flask
+    - {
+        role: nginx,
+        nginx_apps: "{{ apps }}"
+      }
+    - { 
+        role: sqlite,
+        sqlite_dbs: db
+      }
+    - {
+        role: flask,
+        flask_app: "{{ apps }}"
+      }
+    - {
+        role: supervisord,
+        supervisord_apps: "{{ apps }}"
+      }
+
 

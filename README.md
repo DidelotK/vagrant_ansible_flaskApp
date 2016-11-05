@@ -16,5 +16,5 @@ Role installed:
 
 ## Required
 
-- vagrant
+- vagrant (With plugin vagrant-vbguest)
 - ansible

@@ -1,2 +1,2 @@
 - name: Restart Nginx
-  command: service nginx restart
+  service: name=nginx state=restarted
