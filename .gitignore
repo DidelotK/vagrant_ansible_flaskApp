@@ -1,0 +1,19 @@
+##### VAGRANT STUFF #####
+vagrant/.vagrant
+
+##### ANSIBLE STUFF #####
+ansilbe/playbook.retry
+
+##### PYTHON STUFF #####
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+
+# Distribution / packaging
+.Python
+**/env/
+**/.DS_STORE
+
+# Sphinx documentation
+**/docs/_build/
