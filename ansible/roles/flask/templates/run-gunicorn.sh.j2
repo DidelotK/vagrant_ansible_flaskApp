@@ -7,7 +7,7 @@ ADDRESS={{ item.server_ip }}
 
 cd {{ item.path_root }}
 source {{ item.path_virtualenv }}/bin/activate
-exec gunicorn {{ item.name }}:app -w $NUM_WORKERS --bind=$ADDRESS \
+exec gunicorn run:app -w $NUM_WORKERS --bind=$ADDRESS \
   --timeout=$WORKER_TIMEOUT \
   --log-level=debug \
   --timeout=$WORKER_TIMEOUT \

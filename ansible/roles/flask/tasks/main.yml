@@ -7,19 +7,18 @@
   pip: name=virtualenv
 
 - name: Create virtualenv with requirements
-  pip: name=flask virtualenv=/home/{{ user }}/{{ item.name }}/env
+  pip: name=flask virtualenv={{ item.path_virtualenv }}
   remote_user: "{{ user }}"
   with_items: "{{ flask_app }}"
 
 - name: Activate the environment
   become: yes
-  shell: . /home/{{ user }}/{{ item.name }}/env/bin/activate
+  shell: . {{ item.path_virtualenv }}/bin/activate
   with_items: "{{ flask_app }}"
 
 - name: Install app requirements
   pip:
-    requirements=/home/{{ user }}/{{ item.name }}/requirements.txt
-    virtualenv=/my_app/venv
+    requirements={{ item.path_root }}/requirements.txt
   with_items: "{{ flask_app }}"
 
 - name: Deploy gunicorn script

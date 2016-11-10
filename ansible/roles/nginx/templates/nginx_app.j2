@@ -2,10 +2,10 @@ server {
     listen {{ item.listen }};
     server_name {{ item.server_name }};
 
-    root /home/{{ user }}/{{ item.name }};
+    root {{ item.path_root }};
 
-    access_log /home/{{ user }}/{{ item.name }}/logs/nginx/access.log;
-    error_log /home/{{ user }}/{{ item.name }}/logs/nginx/error.log;
+    access_log {{ item.path_logs }}/nginx/access.log;
+    error_log {{ item.path_logs }}/nginx/error.log;
 
     location / {
         proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
@@ -18,7 +18,7 @@ server {
     }
 
     location /static {
-        alias  /home/{{ user }}/{{ item.name }}/app/static/;
+        alias  {{ item.path_static }};
         autoindex on;
     }
 }

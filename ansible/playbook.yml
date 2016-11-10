@@ -11,9 +11,10 @@
         server_name: localhost
         server_ip: 127.0.0.1:5000
         proxy_pass: http://127.0.0.1:5000
-        path_root: /home/vagrant/helloWorldApp/
+        path_root: /home/vagrant/helloWorldApp
         path_logs: /home/vagrant/helloWorldApp/logs
-        path_virtualenv: /home/vagrant/helloWorldApp/env/
+        path_virtualenv: /home/vagrant/helloWorldApp/env
+        path_static: /home/vagrant/helloWorldApp/app/static
         num_worker: 4
         worker_timeout: 300
 
