@@ -2,7 +2,7 @@
 
 acceptance_config.yml
 boxes/*
-.vagrant
+/.vagrant
 /website/.vagrant
 /website/build
 /vagrant-spec.config.rb
