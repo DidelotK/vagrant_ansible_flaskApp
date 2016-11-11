@@ -9,7 +9,7 @@
         config: 'nginx_app.j2'
         listen: 80
         server_name: localhost
-        server_ip: 127.0.0.1:5000
+        server_ip: 0.0.0.0:5000
         proxy_pass: http://127.0.0.1:5000
         path_root: /home/vagrant/helloWorldApp
         path_logs: /home/vagrant/helloWorldApp/logs
@@ -35,5 +35,4 @@
         role: supervisord,
         supervisord_apps: "{{ apps }}"
       }
-
 

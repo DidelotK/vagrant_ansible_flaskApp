@@ -2,7 +2,7 @@
 vagrant/.vagrant
 
 ##### ANSIBLE STUFF #####
-ansilbe/playbook.retry
+ansible/playbook.retry
 
 ##### PYTHON STUFF #####
 # Byte-compiled / optimized / DLL files
@@ -11,7 +11,7 @@ ansilbe/playbook.retry
 **/*$py.class
 
 # Distribution / packaging
-.Python
+**/.Python
 **/env/
 **/.DS_STORE
 
