@@ -6,6 +6,16 @@
 - name: Virtualenv | Install
   pip: name=virtualenv
 
+- name: Create log folder
+  file:
+    dest={{ item.dest }}
+    state=directory
+    mode=0755
+  with_items:
+    - { dest: "{{ path_logs }}/gunicorn" }
+    - { dest: "{{ path_logs }}/nginx" }
+    - { dest: "{{ path_logs }}/supervisor" }
+
 - name: Create virtualenv with requirements
   pip: name=flask virtualenv={{ item.path_virtualenv }}
   remote_user: "{{ user }}"
