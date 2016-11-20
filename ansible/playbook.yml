@@ -29,10 +29,9 @@
       }
     - {
         role: flask,
-        flask_app: "{{ apps }}"
+        flask_apps: "{{ apps }}"
       }
     - {
         role: supervisord,
         supervisord_apps: "{{ apps }}"
       }
-

@@ -8,32 +8,31 @@
 
 - name: Create log folder
   file:
-    dest={{ item.dest }}
-    state=directory
-    mode=0755
-  with_items:
-    - { dest: "{{ path_logs }}/gunicorn" }
-    - { dest: "{{ path_logs }}/nginx" }
-    - { dest: "{{ path_logs }}/supervisor" }
+    dest: "{{ item.0.path_logs }}/{{ item.1 }}"
+    state: directory
+    mode: 0755
+  with_nested:
+    - "{{ flask_apps }}"
+    - ['gunicorn','nginx','supervisor']
 
 - name: Create virtualenv with requirements
   pip: name=flask virtualenv={{ item.path_virtualenv }}
   remote_user: "{{ user }}"
-  with_items: "{{ flask_app }}"
+  with_items: "{{ flask_apps }}"
 
 - name: Activate the environment
   become: yes
   shell: . {{ item.path_virtualenv }}/bin/activate
-  with_items: "{{ flask_app }}"
+  with_items: "{{ flask_apps }}"
 
 - name: Install app requirements
   pip:
     requirements={{ item.path_root }}/requirements.txt
-  with_items: "{{ flask_app }}"
+  with_items: "{{ flask_apps }}"
 
 - name: Deploy gunicorn script
   template:
     src="run-gunicorn.sh.j2"
     dest="{{ item.path_root }}/run-gunicorn.sh"
     mode="0755"
-  with_items: "{{ flask_app }}"
+  with_items: "{{ flask_apps }}"
