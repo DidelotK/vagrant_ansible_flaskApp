@@ -1,1 +1,29 @@
-- include: nginx.yml tags=nginx
+- name: Nginx | Install
+  apt: pkg=nginx state=latest
+  register: installed
+
+- name:  Nginx | Remove the default app
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  when: installed.changed
+
+- name: Nginx | Remove apps symlinks
+  file: path=/etc/nginx/sites-enabled/{{ item.name }} state=absent
+  with_items: "{{ nginx_apps }}"
+
+- name: Nginx | Configure apps
+  template:
+    src={{ item.config }}
+    dest=/etc/nginx/sites-available/{{ item.name }}
+    group=www-data
+    owner=www-data
+    force=yes
+  with_items: "{{ nginx_apps }}"
+
+- name: Nginx | Enable apps
+  file:
+    path=/etc/nginx/sites-enabled/{{ item.name }}
+    src=/etc/nginx/sites-available/{{ item.name }}
+    state=link
+  with_items: "{{ nginx_apps }}"
+  notify:
+    - Restart Nginx

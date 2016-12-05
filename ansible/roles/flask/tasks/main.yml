@@ -20,14 +20,11 @@
   remote_user: "{{ user }}"
   with_items: "{{ flask_apps }}"
 
-- name: Activate the environment
-  become: yes
-  shell: . {{ item.path_virtualenv }}/bin/activate
-  with_items: "{{ flask_apps }}"
-
-- name: Install app requirements
-  pip:
-    requirements={{ item.path_root }}/requirements.txt
+- name: Pip install requirements into virtualenv
+  shell: . {{ item.path_virtualenv }}/bin/activate && {{ item.path_virtualenv }}/bin/pip install -r {{ item.path_root }}/requirements.txt
+  args:
+    chdir: "{{ item.path_root }}"
+  become: true
   with_items: "{{ flask_apps }}"
 
 - name: Deploy gunicorn script
