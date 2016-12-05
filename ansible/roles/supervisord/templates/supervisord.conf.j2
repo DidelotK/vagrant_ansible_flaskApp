@@ -1,7 +1,7 @@
 [program:{{ item.name }}] 
 directory = {{ item.path_root }}
 command = {{ item.path_root }}/run-gunicorn.sh
-user = root
+user = {{ user }}
 stdout_logfile = {{ item.path_logs }}/supervisor/supervisor.log
 stderr_logfile = {{ item.path_logs }}/supervisor/supervisor.err
 redirect_stderr = True
