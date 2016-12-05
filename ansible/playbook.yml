@@ -6,15 +6,17 @@
     user: vagrant
     apps:
       - name: "helloWorldApp"
+        root_dir: "/home/vagrant"
+        root_log: "/var/log"
         config: 'nginx_app.j2'
         listen: 80
         server_name: localhost
         server_ip: 0.0.0.0:5000
         proxy_pass: http://127.0.0.1:5000
-        path_root: /home/vagrant/helloWorldApp
-        path_logs: /var/log/helloWorldApp
-        path_virtualenv: /home/vagrant/helloWorldApp/env
-        path_static: /home/vagrant/helloWorldApp/app/static
+        path_root: "{{ root_dir }}/helloWorldApp"
+        path_logs: "{{ root_log }}/helloWorldApp"
+        path_virtualenv: "{{ path_root }}/env"
+        path_static: "{{ path_root }}/app/static"
         num_worker: 4
         worker_timeout: 300
 
